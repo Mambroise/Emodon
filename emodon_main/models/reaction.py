@@ -7,6 +7,8 @@
 
 
 from django.db import models
+from django.core.exceptions import ValidationError
+
 from emodon_main.models.forum import Forum
 
 class Reaction(models.Model):
@@ -48,5 +50,12 @@ class Reaction(models.Model):
     forum = models.ForeignKey(Forum, on_delete=models.CASCADE, related_name='reactions' )
 
     def __str__(self):
-        return f"{self.get_emoji_display()} at ({self.position_x}, {self.position_y})"
-
+        return f"{self.get_emoji_display()} at ({self.position_x}, {self.position_y}) for {self.forum}"
+    
+    def clean(self):
+        if self.emoji not in dict(self.EMOJI_CHOICES):
+            raise ValidationError('This is not a valid choice from the emoji list')
+    
+    def save(self, *args, **kwargs):
+        self.clean()
+        super().save(*args, **kwargs)
