@@ -18,6 +18,7 @@ class Forum(models.Model):
         ('hard', 'Life is so hard'),
         ('useless', 'I feel useless'),
         ('tired', 'I feel tired'),
+        ('sad', 'I feel sad'),
     ]
 
     title = models.CharField(max_length=50, choices=MOOD_CHOICE)
