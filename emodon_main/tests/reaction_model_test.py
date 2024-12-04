@@ -42,3 +42,10 @@ class ReactionModelTest(TestCase):
 
         reaction = Reaction.objects.create(emoji = 'stars', position_x = 100, position_y = 50, forum=forum)
         self.assertEqual(str(reaction), '🌟 at (100, 50) for I feel depressed')
+
+    def test_all_emoji_reaction(self):
+        forum = Forum.objects.create(title='sad')
+
+        for emoji,_ in Reaction.EMOJI_CHOICES:
+            reaction = Reaction.objects.create(emoji =emoji, position_x = 100, position_y = 50, forum=forum)
+            self.assertEqual(reaction.emoji, emoji)
