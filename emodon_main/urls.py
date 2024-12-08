@@ -14,9 +14,10 @@
 
 # urlpatterns = router.urls
 from django.urls import path
-from .views.forum_view import MoodChoiceListView, ForumListView
+from .views.forum_view import MoodChoiceListView, ForumListView,ForumDetailView
 
 urlpatterns = [
     path('mood_choices/', MoodChoiceListView.as_view(), name='mood-choices'),  # Endpoint pour MOOD_CHOICE
     path('forums/', ForumListView.as_view(), name='forum-list'),  # Endpoint pour les objets Forum
+    path('forums/<int:forum_id', ForumDetailView.as_view(), name='forum-detail'),  # Endpoint pour le get_by_id Forum
 ]
