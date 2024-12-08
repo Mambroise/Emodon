@@ -12,12 +12,16 @@ from ..models import Forum
 
 class ForumService:
  # CRUD methods for Forum models
+    @staticmethod
+    def get_mood_choices():      
+        return [({'key': label, 'value': value}) for label, value in Forum.MOOD_CHOICE]
     
     @staticmethod
     def read_forum_list():
 
         # Retrieve all Forum objects ordered by creation date.
         return Forum.objects.all().order_by('-created_at')
+
 
     @staticmethod
     def create_forum(mood_choice):
@@ -43,12 +47,29 @@ class ForumService:
         except Exception as e:
             return False, None, f"A problem occurred: {str(e)}"
         
+
     @staticmethod
     def get_forum_by_id(pk):
 
         # Retrieve a single Forum object by its primary key (pk).
         try:
-            forum = Forum.objects.get(pk=pk)  # Utilisation de get pour un objet unique
+            forum = Forum.objects.get(pk=pk) 
             return forum, "Forum has been found."
+        
         except ObjectDoesNotExist:
             return None, "No forum was found."
+    
+
+    @staticmethod
+    def delete_forum(pk):
+        # Retrieve a single Forum object by its primary key (pk) before deleting it.
+        try:
+            forum = Forum.objects.get(pk=pk)  
+            forum.delete()
+            return True, "Forum has been successfully deleted."
+        
+        except ObjectDoesNotExist:
+            return False, "No forum was found."
+        
+        except Exception as e:
+            return False, f"A problem occured: {str(e)}"
