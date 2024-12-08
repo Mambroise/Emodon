@@ -18,7 +18,7 @@ class MoodChoiceListView(APIView):
     def get(self, request):
 
         # Endpoint to send all available forums to the front
-        mood_choices = [({'key': label, 'value': value}) for label, value in Forum.MOOD_CHOICE]
+        mood_choices = ForumService.get_mood_choices()
         serializer = MoodChoiceSerializer(mood_choices, many=True)
 
         return Response({"data" : serializer.data}, status=status.HTTP_200_OK)
@@ -36,7 +36,6 @@ class ForumListView(APIView):
 
         # Endpoint to create a new Forum object based on a mood choice.
         mood_choice = request.data.get('mood_choice')
-        
         success, forum_instance, message = ForumService.create_forum(mood_choice)
 
         # Serialize the newly created Forum object
@@ -45,11 +44,10 @@ class ForumListView(APIView):
         if not success:
             return Response({"message":message}, status=status.HTTP_400_BAD_REQUEST)
 
-
         return Response({"data":serializer.data, "message":message}, status=status.HTTP_201_CREATED)
     
-class ForumDetailView(APIView):
 
+class ForumDetailView(APIView):
     def get(self, request, pk):
 
         forum, message =ForumService.get_forum_by_id(pk)
@@ -60,3 +58,13 @@ class ForumDetailView(APIView):
         serializer = ForumSerializer(forum)
 
         return Response({"data" : serializer.data}, status=status.HTTP_200_OK)
+    
+
+    def delete(self, request, pk):
+
+        success, message =ForumService.delete_forum(pk)
+
+        if not success:
+            return Response({"message" : message}, status=status.HTTP_400_BAD_REQUEST)
+
+        return Response({"message" : message}, status=status.HTTP_200_OK)
