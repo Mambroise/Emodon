@@ -8,6 +8,7 @@
 
 from django.db import models
 from django.core.exceptions import ValidationError
+from django.utils.translation import gettext_lazy as _
 
 from emodon_main.models.forum import Forum
 
@@ -54,7 +55,7 @@ class Reaction(models.Model):
     
     def clean(self):
         if self.emoji not in dict(self.EMOJI_CHOICES):
-            raise ValidationError('This is not a valid choice from the emoji list')
+            raise ValidationError(_('This is not a valid choice from the emoji list'))
     
     def save(self, *args, **kwargs):
         self.clean()

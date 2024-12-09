@@ -10,31 +10,30 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
 
-from ..models import Forum
 from ..services.forum_service import ForumService
 from ..serialyzers.forum_serialyzers import ForumSerializer,MoodChoiceSerializer
 
 class MoodChoiceListView(APIView):
+    # Endpoint to send all available forums to the front
     def get(self, request):
 
-        # Endpoint to send all available forums to the front
         mood_choices = ForumService.get_mood_choices()
         serializer = MoodChoiceSerializer(mood_choices, many=True)
 
         return Response({"data" : serializer.data}, status=status.HTTP_200_OK)
     
 class ForumListView(APIView):
+    # Endpoint to send all available forums to the front
     def get(self, request):
         
-        # Endpoint to send all available forums to the front
         forums = ForumService.read_forum_list()
         serializer = ForumSerializer(forums, many=True)
 
         return Response({"data" : serializer.data}, status=status.HTTP_200_OK)
     
+    # Endpoint to create a new Forum object based on a mood choice.
     def post(self, request):
 
-        # Endpoint to create a new Forum object based on a mood choice.
         mood_choice = request.data.get('mood_choice')
         success, forum_instance, message = ForumService.create_forum(mood_choice)
 
@@ -48,6 +47,7 @@ class ForumListView(APIView):
     
 
 class ForumDetailView(APIView):
+    # Endpoint to retrieve the selected forum by id.
     def get(self, request, pk):
 
         forum, message =ForumService.get_forum_by_id(pk)
@@ -60,8 +60,8 @@ class ForumDetailView(APIView):
         return Response({"data" : serializer.data}, status=status.HTTP_200_OK)
     
 
+    # Endpoint to delete the selected forum by id.
     def delete(self, request, pk):
-
         success, message =ForumService.delete_forum(pk)
 
         if not success:
