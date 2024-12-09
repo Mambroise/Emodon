@@ -10,7 +10,6 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
 
-from ..models import Forum
 from ..services.forum_service import ForumService
 from ..serialyzers.forum_serialyzers import ForumSerializer,MoodChoiceSerializer
 
