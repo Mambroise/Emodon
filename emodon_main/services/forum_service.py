@@ -7,6 +7,7 @@
 
 
 from django.core.exceptions import ValidationError,ObjectDoesNotExist
+from django.utils.translation import gettext_lazy as _
 
 from ..models import Forum
 
@@ -33,19 +34,22 @@ class ForumService:
         """
         try:
             if not mood_choice:
-                return False, None, "Mood choice is required."
+                return False, None, _("Mood choice is required.")
 
             # Create a new Forum object
             new_forum = Forum(title=mood_choice)
             new_forum.save()
-            return True, new_forum, "Your forum has been successfully created."
+            return True, new_forum, _("Your forum has been successfully created.")
         
         except ValidationError as ve:
             # Capture validation errors and return them
-            return False, None, f"Validation error: {', '.join(ve.messages)}"
+            validator_error_message = _("Validation error: %(errors)s") % {"errors" :', '.join(ve.messages)}
+            return False, None, validator_error_message
+
             # Capture all possible errors
         except Exception as e:
-            return False, None, f"A problem occurred: {str(e)}"
+            error_message = _("A problem occurred: %(errors)s") % {"errors" :str(e)}
+            return False, None, error_message
         
 
     @staticmethod
@@ -54,10 +58,10 @@ class ForumService:
         # Retrieve a single Forum object by its primary key (pk).
         try:
             forum = Forum.objects.get(pk=pk) 
-            return forum, "Forum has been found."
+            return forum, _("Forum has been found.")
         
         except ObjectDoesNotExist:
-            return None, "No forum was found."
+            return None, _("No forum was found.")
     
 
     @staticmethod
@@ -66,10 +70,11 @@ class ForumService:
         try:
             forum = Forum.objects.get(pk=pk)  
             forum.delete()
-            return True, "Forum has been successfully deleted."
+            return True, _("Forum has been successfully deleted.")
         
         except ObjectDoesNotExist:
-            return False, "No forum was found."
+            return False, _("No forum was found.")
         
         except Exception as e:
-            return False, f"A problem occured: {str(e)}"
+            error_message = _("A problem occured: %(errors)s") % {"errors" : str(e)}
+            return False, error_message

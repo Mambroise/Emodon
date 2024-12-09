@@ -8,17 +8,18 @@
 
 from django.db import models
 from django.core.exceptions import ValidationError
+from django.utils.translation import gettext_lazy as _
 # from django.contrib.auth.models import User
 
 class Forum(models.Model):
     MOOD_CHOICE = [
-        ('bad', 'I feel bad'),
-        ('alone', 'I feel lonely'),
-        ('depressed', 'I feel depressed'),
-        ('hard', 'Life is so hard'),
-        ('useless', 'I feel useless'),
-        ('tired', 'I feel tired'),
-        ('sad', 'I feel sad'),
+        ('bad', _('I feel bad')),
+        ('alone', _('I feel lonely')),
+        ('depressed', _('I feel depressed')),
+        ('hard', _('Life is so hard')),
+        ('useless', _('I feel useless')),
+        ('tired', _('I feel tired')),
+        ('sad', _('I feel sad')),
     ]
 
     title = models.CharField(max_length=50, choices=MOOD_CHOICE)
@@ -38,7 +39,7 @@ class Forum(models.Model):
     # Validation
     def clean(self):
         if self.title not in dict(self.MOOD_CHOICE):
-            raise ValidationError('This is not a valid choice for your mood')
+            raise ValidationError(_('This is not a valid choice for your mood'))
         
     def save(self, *args, **kwargs):
         self.clean()
