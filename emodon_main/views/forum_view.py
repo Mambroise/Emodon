@@ -48,9 +48,9 @@ class ForumListView(APIView):
 
 class ForumDetailView(APIView):
     # Endpoint to retrieve the selected forum by id.
-    def get(self, request, pk):
+    def get(self, request, forum_id):
 
-        forum, message =ForumService.get_forum_by_id(pk)
+        forum, message =ForumService.get_forum_by_id(forum_id)
 
         if forum is None:
             return Response({"message" : message}, status=status.HTTP_404_NOT_FOUND)
@@ -61,8 +61,8 @@ class ForumDetailView(APIView):
     
 
     # Endpoint to delete the selected forum by id.
-    def delete(self, request, pk):
-        success, message =ForumService.delete_forum(pk)
+    def delete(self, request, forum_id):
+        success, message =ForumService.delete_forum(forum_id)
 
         if not success:
             return Response({"message" : message}, status=status.HTTP_400_BAD_REQUEST)

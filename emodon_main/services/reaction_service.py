@@ -9,7 +9,7 @@
 from django.core.exceptions import ObjectDoesNotExist,ValidationError
 from django.utils.translation import gettext_lazy as _
 
-from ..models import Reaction
+from ..models import Reaction,Forum
 
 class ReactionService:
 # CRUD methods for Forum models
@@ -21,17 +21,20 @@ class ReactionService:
     @staticmethod
     def get_reactions_by_forum_id(forum_pk):
         try:
-            reactions = Reaction.objects.filter(forum=forum_pk).order_by('-created_at')
-            return reactions, _("reactions were found.")
-        except ObjectDoesNotExist:
-            return None, _("No reactions found.")
+            forum = Forum.objects.get(pk=forum_pk)
+            reactions = Reaction.objects.filter(forum=forum).order_by('-created_at')
+            return reactions, _("reactions list may be empty.")
+        except Exception as e:
+            return None, _("A problem occurred: %(errors)s") % {'errors': str(e)}
         
     @staticmethod
     def create_reaction(emoji,position_x,position_y,forum_pk):
         try:
+            forum = Forum.objects.get(pk=forum_pk)
             # Create a new reaction object
-            new_reaction = Reaction(emoji=emoji,position_x=position_x,position_y=position_y,forum=forum_pk)
+            new_reaction = Reaction(emoji=emoji,position_x=position_x,position_y=position_y,forum=forum)
             new_reaction.save()
+    
             return True, new_reaction, _('Reaction successfully created')
         
         # Capture validation errors and return them
@@ -42,7 +45,7 @@ class ReactionService:
         # Capture all possible errors
         except Exception as e:
             error_message =  _('A problem occured: %(errors)s') % {'errors' : str(e)}
-            return False, new_reaction, error_message
+            return False, None, error_message
         
     # Retrieve a single Forum object by its primary key (pk) before deleting it.
     @staticmethod

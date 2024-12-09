@@ -21,7 +21,7 @@ from .views.reaction_view import EmojiListView,ReactionListView
 urlpatterns = [
     path('mood_choices/', MoodChoiceListView.as_view(), name='mood-choices'),  # Endpoint pour MOOD_CHOICE
     path('forums/', ForumListView.as_view(), name='forum-list'),  # Endpoint for forum objects
-    path('forums/<int:forum_id', ForumDetailView.as_view(), name='forum-detail'),  # Endpoint for get_by_id Forum
+    path('forums/<int:forum_id>', ForumDetailView.as_view(), name='forum-detail'),  # Endpoint for get_by_id Forum
     path('emoji_choices/', EmojiListView.as_view(), name='emoji-choices'),  # Endpoint pour Emoji_CHOICE
-    path('reactions/<int:forum_id', ReactionListView.as_view(), name='reactions-list'),  # Endpoint for reaction objects
+    path('reactions/<int:id>', ReactionListView.as_view(), name='reactions-list'),  # Endpoint for reaction objects
 ]
