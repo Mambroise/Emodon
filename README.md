@@ -8,7 +8,7 @@ La documentation ci-dessous décrit les endpoints disponibles pour l’API de **
 Tous les endpoints sont accessibles depuis la base URL suivante :
 
 ```
-http://<domaine_ou_ip>/api/
+https://emodon.onrender.com/api/
 ```
 
 ---
