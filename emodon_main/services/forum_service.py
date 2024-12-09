@@ -17,21 +17,21 @@ class ForumService:
     def get_mood_choices():      
         return [({'key': label, 'value': value}) for label, value in Forum.MOOD_CHOICE]
     
+    # Retrieve all Forum objects ordered by creation date.
     @staticmethod
     def read_forum_list():
 
-        # Retrieve all Forum objects ordered by creation date.
         return Forum.objects.all().order_by('-created_at')
 
 
+    """
+    Create a new Forum object with the given mood_choice.
+
+    Returns:
+        tuple: (success: bool, data: dict, message: str)
+    """
     @staticmethod
     def create_forum(mood_choice):
-        """
-        Create a new Forum object with the given mood_choice.
-
-        Returns:
-            tuple: (success: bool, data: dict, message: str)
-        """
         try:
             if not mood_choice:
                 return False, None, _("Mood choice is required.")
@@ -41,21 +41,21 @@ class ForumService:
             new_forum.save()
             return True, new_forum, _("Your forum has been successfully created.")
         
+        # Capture validation errors and return them
         except ValidationError as ve:
-            # Capture validation errors and return them
-            validator_error_message = _("Validation error: %(errors)s") % {"errors" :', '.join(ve.messages)}
+            validator_error_message = _("Validation error: %(errors)s") % {"errors" :' '.join(ve.messages)}
             return False, None, validator_error_message
 
-            # Capture all possible errors
+        # Capture all possible errors
         except Exception as e:
             error_message = _("A problem occurred: %(errors)s") % {"errors" :str(e)}
             return False, None, error_message
         
 
+    # Retrieve a single Forum object by its primary key (pk).
     @staticmethod
     def get_forum_by_id(pk):
 
-        # Retrieve a single Forum object by its primary key (pk).
         try:
             forum = Forum.objects.get(pk=pk) 
             return forum, _("Forum has been found.")
@@ -64,9 +64,9 @@ class ForumService:
             return None, _("No forum was found.")
     
 
+    # Retrieve a single Forum object by its primary key (pk) before deleting it.
     @staticmethod
     def delete_forum(pk):
-        # Retrieve a single Forum object by its primary key (pk) before deleting it.
         try:
             forum = Forum.objects.get(pk=pk)  
             forum.delete()
