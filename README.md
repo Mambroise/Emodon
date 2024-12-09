@@ -1,22 +1,28 @@
 # Emodon
-API Documentation
-La documentation des endpoints disponibles pour FacturaSieli est décrite ci-dessous. Ces endpoints permettent de gérer les forums et les choix de mood.
+# Emodon API Documentation
 
-Base URL
+La documentation ci-dessous décrit les endpoints disponibles pour l’API de **FacturaSieli**. Ces endpoints permettent de gérer les choix de mood, les forums, les réactions, et les emojis.
+
+## Base URL
+
 Tous les endpoints sont accessibles depuis la base URL suivante :
 
-
+```
 http://<domaine_ou_ip>/api/
+```
 
-Endpoints
+---
 
-1. Récupérer les choix de mood
-URL : /mood_choices/
-Méthode : GET
-Description : Renvoie la liste des choix de mood disponibles.
-Exemple de réponse :
+## Endpoints
 
-json
+### 1. Récupérer les choix de mood
+
+**URL :** `/mood_choices/`  
+**Méthode :** `GET`  
+**Description :** Renvoie la liste des choix de mood disponibles.  
+
+**Exemple de réponse :**
+```json
 {
     "data": [
         {"key": "Happy", "value": 1},
@@ -24,13 +30,37 @@ json
         {"key": "Excited", "value": 3}
     ]
 }
-2. Lister tous les forums
-URL : /forums/
-Méthode : GET
-Description : Récupère tous les forums existants, triés par date de création (plus récent en premier).
+```
 
-Exemple de réponse :
-json
+---
+
+### 2. Récupérer les choix d'emojis
+
+**URL :** `/emoji_choices/`  
+**Méthode :** `GET`  
+**Description :** Renvoie la liste des emojis disponibles.  
+
+**Exemple de réponse :**
+```json
+{
+    "data": [
+        {"key": ":smile:", "value": 1},
+        {"key": ":heart:", "value": 2},
+        {"key": ":thumbsup:", "value": 3}
+    ]
+}
+```
+
+---
+
+### 3. Lister tous les forums
+
+**URL :** `/forums/`  
+**Méthode :** `GET`  
+**Description :** Récupère tous les forums existants, triés par date de création (plus récent en premier).
+
+**Exemple de réponse :**
+```json
 {
     "data": [
         {
@@ -45,22 +75,25 @@ json
         }
     ]
 }
+```
 
-3. Créer un forum
+---
 
-URL : /forums/
-Méthode : POST
-Description : Crée un nouvel objet Forum en fonction du choix de mood fourni.
+### 4. Créer un forum
 
-Requête attendue :
-json
+**URL :** `/forums/`  
+**Méthode :** `POST`  
+**Description :** Crée un nouvel objet Forum en fonction du choix de mood fourni.
+
+**Requête attendue :**
+```json
 {
     "mood_choice": "Happy"
 }
+```
 
-Exemple de réponse (succès) :
-
-json
+**Exemple de réponse (succès) :**
+```json
 {
     "data": {
         "id": 3,
@@ -69,21 +102,25 @@ json
     },
     "message": "Your forum has been successfully created."
 }
+```
 
-Exemple de réponse (échec) :
-json
+**Exemple de réponse (échec) :**
+```json
 {
     "message": "Mood choice is required."
 }
+```
 
-4. Récupérer un forum spécifique
+---
 
-URL : /forums/<forum_id>/
-Méthode : GET
-Description : Récupère un objet Forum spécifique en fonction de son ID.
+### 5. Récupérer un forum spécifique
 
-Exemple de réponse (succès) :
-json
+**URL :** `/forums/<forum_id>/`  
+**Méthode :** `GET`  
+**Description :** Récupère un objet Forum spécifique en fonction de son ID.
+
+**Exemple de réponse (succès) :**
+```json
 {
     "data": {
         "id": 1,
@@ -92,44 +129,150 @@ json
     },
     "message": "Forum has been found."
 }
+```
 
-Exemple de réponse (échec) :
-json
+**Exemple de réponse (échec) :**
+```json
 {
     "message": "No forum was found."
 }
+```
 
-5. Supprimer un forum
+---
 
-URL : /forums/<forum_id>/
-Méthode : DELETE
-Description : Supprime un objet Forum spécifique.
-Exemple de réponse (succès) :
+### 6. Supprimer un forum
 
-json
+**URL :** `/forums/<forum_id>/`  
+**Méthode :** `DELETE`  
+**Description :** Supprime un objet Forum spécifique.
+
+**Exemple de réponse (succès) :**
+```json
 {
     "message": "Forum has been successfully deleted."
 }
-Exemple de réponse (échec) :
+```
 
-json
+**Exemple de réponse (échec) :**
+```json
 {
     "message": "No forum was found."
 }
+```
 
+---
 
-Notes importantes
-Codes de statut HTTP :
+### 7. Lister toutes les réactions d'un forum
 
-200 OK : Requête réussie.
-201 Created : Objet créé avec succès.
-400 Bad Request : Erreur dans la requête (données manquantes ou invalides).
-404 Not Found : Objet non trouvé.
+**URL :** `/reactions/<forum_id>/`  
+**Méthode :** `GET`  
+**Description :** Récupère toutes les réactions associées à un forum donné, triées par date de création (plus récent en premier).
 
+**Exemple de réponse (succès) :**
+```json
+{
+    "data": [
+        {
+            "id": 1,
+            "emoji": ":smile:",
+            "position_x": 120,
+            "position_y": 300,
+            "created_at": "2024-12-08T14:00:00Z"
+        }
+    ],
+    "message": "Reactions were found."
+}
+```
 
-Données obligatoires pour le front-end :
+**Exemple de réponse (échec) :**
+```json
+{
+    "message": "No reactions found."
+}
+```
 
-Vérifiez toujours la validité des réponses et gérez les erreurs (message) affichées dans les exemples ci-dessus.
-Exemple d’intégration dans React :
+---
 
-Vous pouvez utiliser fetch ou une bibliothèque comme Axios pour appeler ces endpoints depuis votre application React.
+### 8. Créer une réaction
+
+**URL :** `/reactions/<forum_id>/`  
+**Méthode :** `POST`  
+**Description :** Crée une nouvelle réaction associée à un forum spécifique.
+
+**Requête attendue :**
+```json
+{
+    "emoji_choice": ":smile:",
+    "position_x": 100,
+    "position_y": 200
+}
+```
+
+**Exemple de réponse (succès) :**
+```json
+{
+    "data": {
+        "id": 2,
+        "emoji": ":smile:",
+        "position_x": 100,
+        "position_y": 200,
+        "created_at": "2024-12-08T14:30:00Z"
+    },
+    "message": "Reaction successfully created."
+}
+```
+
+**Exemple de réponse (échec) :**
+```json
+{
+    "message": "Validation error: Emoji is required."
+}
+```
+
+---
+
+### 9. Supprimer une réaction
+
+**URL :** `/reactions/<reaction_id>/`  
+**Méthode :** `DELETE`  
+**Description :** Supprime une réaction spécifique en fonction de son ID.
+
+**Exemple de réponse (succès) :**
+```json
+{
+    "message": "Reaction has been successfully deleted."
+}
+```
+
+**Exemple de réponse (échec) :**
+```json
+{
+    "message": "No Reaction found."
+}
+```
+
+---
+
+## Notes importantes
+
+### Codes de statut HTTP
+
+- **200 OK :** Requête réussie.
+- **201 Created :** Objet créé avec succès.
+- **400 Bad Request :** Erreur dans la requête (données manquantes ou invalides).
+- **404 Not Found :** Objet non trouvé.
+
+### Intégration front-end
+
+- Vérifiez toujours la validité des réponses et gérez les erreurs en affichant les messages inclus dans les réponses.
+- Exemple d’utilisation avec Axios (React) :
+```javascript
+axios.get('/api/mood_choices/')
+  .then(response => {
+    console.log(response.data);
+  })
+  .catch(error => {
+    console.error(error.response.data.message);
+  });
+```
+
