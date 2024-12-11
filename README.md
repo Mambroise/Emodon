@@ -30,6 +30,7 @@ https://emodon.onrender.com/api/
         {"key":'depressed',"value":'I feel depressed'},
         {"key":'hard',"value":'Life is so hard'},
         {"key":'useless',"value":'I feel useless'},
+    ]
 
 }
 ```
@@ -277,4 +278,3 @@ axios.get('/api/mood_choices/')
     console.error(error.response.data.message);
   });
 ```
-

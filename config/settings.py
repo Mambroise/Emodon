@@ -1,3 +1,11 @@
+# ---------------------------------------------------------------------------
+#                           E m o D o n   ( 2 0 2 4 )
+# ---------------------------------------------------------------------------
+# File   : config/settings.py
+# Author : Morice
+# ---------------------------------------------------------------------------
+
+
 """
 Django settings for emodon project.
 
@@ -40,7 +48,9 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'emodon_main',
     'rest_framework',
-    'drf_spectacular'
+    'drf_spectacular',
+    'users',
+    'analytics',
 ]
 
 REST_FRAMEWORK = {
