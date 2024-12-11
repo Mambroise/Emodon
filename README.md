@@ -8,7 +8,7 @@ La documentation ci-dessous décrit les endpoints disponibles pour l’API de **
 Tous les endpoints sont accessibles depuis la base URL suivante :
 
 ```
-http://<domaine_ou_ip>/api/
+https://emodon.onrender.com/api/
 ```
 
 ---
@@ -25,9 +25,11 @@ http://<domaine_ou_ip>/api/
 ```json
 {
     "data": [
-        {"key": "Happy", "value": 1},
-        {"key": "Sad", "value": 2},
-        {"key": "Excited", "value": 3}
+        {"key":'bad',"value":'I feel bad'},
+        {"key":'alone',"value":'I feel lonely'},
+        {"key":'depressed',"value":'I feel depressed'},
+        {"key":'hard',"value":'Life is so hard'},
+        {"key":'useless',"value":'I feel useless'},
     ]
 }
 ```
@@ -44,9 +46,9 @@ http://<domaine_ou_ip>/api/
 ```json
 {
     "data": [
-        {"key": ":smile:", "value": 1},
-        {"key": ":heart:", "value": 2},
-        {"key": ":thumbsup:", "value": 3}
+        {"key": "kiss", "value": 😘},
+        {"key": "heart", "value": ❤️},
+        {"key": "smile", "value": 😊},}
     ]
 }
 ```
@@ -88,7 +90,7 @@ http://<domaine_ou_ip>/api/
 **Requête attendue :**
 ```json
 {
-    "mood_choice": "Happy"
+    "mood_choice": "sad"
 }
 ```
 
@@ -97,7 +99,7 @@ http://<domaine_ou_ip>/api/
 {
     "data": {
         "id": 3,
-        "title": "Happy",
+        "title": "sad",
         "created_at": "2024-12-08T13:00:00Z"
     },
     "message": "Your forum has been successfully created."
@@ -124,7 +126,7 @@ http://<domaine_ou_ip>/api/
 {
     "data": {
         "id": 1,
-        "title": "Happy",
+        "title": "sad",
         "created_at": "2024-12-08T12:00:00Z"
     },
     "message": "Forum has been found."
@@ -164,7 +166,7 @@ http://<domaine_ou_ip>/api/
 
 ### 7. Lister toutes les réactions d'un forum
 
-**URL :** `/reactions/<forum_id>/`  
+**URL :** `/reactions/<forum_id>`  
 **Méthode :** `GET`  
 **Description :** Récupère toutes les réactions associées à un forum donné, triées par date de création (plus récent en premier).
 
@@ -195,14 +197,14 @@ http://<domaine_ou_ip>/api/
 
 ### 8. Créer une réaction
 
-**URL :** `/reactions/<forum_id>/`  
+**URL :** `/reactions/<forum_id>`  
 **Méthode :** `POST`  
 **Description :** Crée une nouvelle réaction associée à un forum spécifique.
 
 **Requête attendue :**
 ```json
 {
-    "emoji_choice": ":smile:",
+    "emoji_choice": "smile",
     "position_x": 100,
     "position_y": 200
 }
@@ -233,7 +235,7 @@ http://<domaine_ou_ip>/api/
 
 ### 9. Supprimer une réaction
 
-**URL :** `/reactions/<reaction_id>/`  
+**URL :** `/reactions/<reaction_id>`  
 **Méthode :** `DELETE`  
 **Description :** Supprime une réaction spécifique en fonction de son ID.
 
@@ -275,4 +277,3 @@ axios.get('/api/mood_choices/')
     console.error(error.response.data.message);
   });
 ```
-
