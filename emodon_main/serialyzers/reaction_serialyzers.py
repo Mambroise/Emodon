@@ -8,13 +8,14 @@
 
 from rest_framework import serializers
 
-from ..models import Reaction
+from ..models import Reaction,Emoji
 
 class ReactionSerialyser(serializers.ModelSerializer):
     class Meta:
         model = Reaction
-        fields = ['id', 'emoji', 'position_x', 'position_y', 'created_at']
+        fields = ['id', 'icon', 'position_x', 'position_y', 'created_at']
 
-class EmojiSerialysers(serializers.Serializer):
-    key = serializers.CharField()
-    value = serializers.CharField()
+class EmojiSerialysers(serializers.ModelSerializer):
+    class Meta:
+        model = Emoji
+        fields = ['id', 'icon']

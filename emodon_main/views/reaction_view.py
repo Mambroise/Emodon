@@ -40,7 +40,7 @@ class ReactionListView(APIView):
         pos_x = request.data.get('position_x')
         pos_y = request.data.get('position_y')
         success, reaction_instance, message = ReactionService.create_reaction(
-            emoji=emoji_choice,
+            emoji_id=emoji_choice,
             position_x=pos_x,
             position_y=pos_y,
             forum_pk=id,

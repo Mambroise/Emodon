@@ -9,18 +9,17 @@
 from django.core.exceptions import ValidationError,ObjectDoesNotExist
 from django.utils.translation import gettext_lazy as _
 
-from ..models import Forum
+from ..models import Forum,Mood
 
 class ForumService:
  # CRUD methods for Forum models
     @staticmethod
-    def get_mood_choices():      
-        return [({'key': label, 'value': value}) for label, value in Forum.MOOD_CHOICE]
+    def get_mood_choices(): 
+        return Mood.objects.all()
     
     # Retrieve all Forum objects ordered by creation date.
     @staticmethod
     def read_forum_list():
-
         return Forum.objects.all().order_by('-created_at')
 
 
@@ -36,8 +35,9 @@ class ForumService:
             if not mood_choice:
                 return False, None, _("Mood choice is required.")
 
+            mood = Mood.objects.get(pk=mood_choice)
             # Create a new Forum object
-            new_forum = Forum(title=mood_choice)
+            new_forum = Forum(mood=mood)
             new_forum.save()
             return True, new_forum, _("Your forum has been successfully created.")
         

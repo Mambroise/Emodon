@@ -1,13 +1,15 @@
 # ---------------------------------------------------------------------------
 #                           E m o D o n   ( 2 0 2 4 )
 # ---------------------------------------------------------------------------
-# File   : emodon_main/admin.py
+# File   : emodon_main/models/emoji.py
 # Author : Morice
 # ---------------------------------------------------------------------------
 
-from django.contrib import admin
-from .models import Mood,Emoji
 
-# Register your models here.
-admin.site.register(Mood)
-admin.site.register(Emoji)
+from django.db import models
+
+class Emoji(models.Model):
+    icon = models.CharField(max_length=20, unique=True)
+
+    def __str__(self):
+        return f"{self.icon}"
