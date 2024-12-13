@@ -1,12 +1,15 @@
 # ---------------------------------------------------------------------------
 #                           E m o D o n   ( 2 0 2 4 )
 # ---------------------------------------------------------------------------
-# File   : emodon_main/admin.py
+# File   : emodon_main/models/mood.py
 # Author : Morice
 # ---------------------------------------------------------------------------
 
-from django.contrib import admin
-from .models import Mood
 
-# Register your models here.
-admin.site.register(Mood)
+from django.db import models
+
+class Mood(models.Model):
+    text = models.CharField(max_length=100)
+
+    def __str__(self):
+        return f"{self.text}"
