@@ -8,13 +8,14 @@
 
 from rest_framework import serializers
 
-from ..models import Forum
+from ..models import Forum,Mood
 
 class ForumSerializer(serializers.ModelSerializer):
     class Meta:
         model = Forum
-        fields = ['id', 'title', 'created_at'] 
+        fields = ['id', 'mood', 'created_at'] 
 
-class MoodChoiceSerializer(serializers.Serializer):
-    key = serializers.CharField()
-    value = serializers.CharField()
+class MoodChoiceSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Mood
+        fields = ['id', 'text'] 
