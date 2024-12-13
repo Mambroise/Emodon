@@ -71,7 +71,7 @@ MIDDLEWARE = [
 
 CORS_ALLOWED_ORIGINS = [
     "http://localhost:3000",  # Ton front local
-    "https://savory-animal.surge.sh/",  # Si déployé sur Surge ou autre
+    "https://savory-animal.surge.sh",  # Si déployé sur Surge ou autre
 ]
 
 ROOT_URLCONF = 'config.urls'
