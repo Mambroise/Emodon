@@ -9,13 +9,13 @@
 from django.core.exceptions import ObjectDoesNotExist,ValidationError
 from django.utils.translation import gettext_lazy as _
 
-from ..models import Reaction,Forum
+from ..models import Reaction,Forum,Emoji
 
 class ReactionService:
 # CRUD methods for Forum models
     @staticmethod
     def get_emoji_choices():
-        return [({'key' : key, 'value' : value}) for key, value in Reaction.EMOJI_CHOICES ]
+        return Emoji.objects.all()
     
     # Retrieve all reactions objects for a same forum ordered by creation date.
     @staticmethod
@@ -28,11 +28,13 @@ class ReactionService:
             return None, _("A problem occurred: %(errors)s") % {'errors': str(e)}
         
     @staticmethod
-    def create_reaction(emoji,position_x,position_y,forum_pk):
+    def create_reaction(emoji_id,position_x,position_y,forum_pk):
         try:
             forum = Forum.objects.get(pk=forum_pk)
+            emoji = Emoji.objects.get(pk=emoji_id)
             # Create a new reaction object
-            new_reaction = Reaction(emoji=emoji,position_x=position_x,position_y=position_y,forum=forum)
+            new_reaction = Reaction(icon=emoji,position_x=position_x,position_y=position_y,forum=forum)
+            print('okokokokokok')
             new_reaction.save()
     
             return True, new_reaction, _('Reaction successfully created')
